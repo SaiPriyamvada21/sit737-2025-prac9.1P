@@ -151,3 +151,7 @@ app.get('/modulo', (req, res) => {
     logger.info({ message: `Performed ${operation}: ${num1} % ${num2} = ${result}` });
     res.json({ result });
 });
+app.get('/health', (req, res) => {
+    res.status(200).send('Healthy');
+});
+
