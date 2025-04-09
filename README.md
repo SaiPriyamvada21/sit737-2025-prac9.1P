@@ -1,70 +1,55 @@
-# Calculator Microservice (Enhanced)
+# SIT737 - 2025 - Prac 5.2D: Dockerization and Cloud Deployment
 
-This is an enhanced calculator microservice built with Node.js and Express.js. It provides basic arithmetic operations (addition, subtraction, multiplication, division) and now includes exponentiation, square root, and modulo operations.
+## Overview
 
-## Features
 
-* **Basic Arithmetic:**
-    * `/add`: Adds two numbers.
-    * `/subtract`: Subtracts two numbers.
-    * `/multiply`: Multiplies two numbers.
-    * `/divide`: Divides two numbers.
-* **Advanced Arithmetic:**
-    * `/exponentiate`: Calculates the base raised to the power of the exponent.
-    * `/sqrt`: Calculates the square root of a non-negative number.
-    * `/modulo`: Calculates the remainder of a division.
-* **Input Validation:** Each endpoint performs basic input validation and returns a `400 Bad Request` error for invalid input.
-* **Logging:** Uses Winston for logging incoming requests, outgoing responses, performed operations, warnings, and errors to the console and log files (`logs/combined.log` and `logs/error.log`).
+The microservice was originally developed in Task 5.1P. In this task, we package the application using Docker, push it to GCR, and validate that it can be pulled and run as a container.
 
-## Prerequisites
+---
 
-* [Node.js](https://nodejs.org/en/download/) installed on your system.
-* [npm](https://www.npmjs.com/) (usually installed with Node.js).
-* [Git](https://github.com) (for version control).
-* [Visual Studio Code](https://code.visualstudio.com/) (for development).
+## Files in this Repo
 
-## Getting Started
+- `server.js` – Microservice source code
+- `Dockerfile` – Instructions to build the container image
+- `package.json` – Project dependencies
+- `README.md` – Documentation of steps and deployment process
 
-1.  **Clone the repository:**
-    ```bash
-    git clone https://github.com/SaiPriyamvada21/sit737-2025-prac4c
-    cd sit737-2025-prac4c
-    ```
+---
 
-2.  **Install dependencies:**
-    ```bash
-    npm install
-    ```
-    (This will install the `express` and `winston` packages)
+## Tools Used
 
-3.  **Start the microservice:**
-    ```bash
-    node server.js
-    ```
+- [Node.js](https://nodejs.org/)
+- [Docker](https://www.docker.com/)
+- [Google Cloud SDK (gcloud)](https://cloud.google.com/sdk/docs/install)
+- [Google Container Registry (GCR)](https://cloud.google.com/container-registry)
 
-The service will start and listen on port `3000`.
+---
 
-## API Endpoints
+## Deployment Steps
 
-| Operation      | Endpoint     | Method | Input Example                        | Response Example        |
-|----------------|--------------|--------|--------------------------------------|-------------------------|
-| Addition       | `/add`       | GET    | `/add?num1=5&num2=3`                 | `{"result":8}`          |
-| Subtraction    | `/subtract`  | GET    | `/subtract?num1=10&num2=4`            | `{"result":6}`          |
-| Multiplication | `/multiply` | GET    | `/multiply?num1=6&num2=7`             | `{"result":42}`         |
-| Division       | `/divide`    | GET    | `/divide?num1=15&num2=3`              | `{"result":5}`          |
-| Exponentiation | `/exponentiate`| GET    | `/exponentiate?base=2&exponent=3`   | `{"result":8}`          |
-| Square Root    | `/sqrt`      | GET    | `/sqrt?num=16`                       | `{"result":4}`          |
-| Modulo         | `/modulo`    | GET    | `/modulo?num1=10&num2=3`             | `{"result":1}`          |
+### Step 1: Install Prerequisites
 
-## Error Handling
+- Node.js
+- Docker Desktop
+- Google Cloud SDK (`gcloud`)
+- Google Cloud project with billing enabled
 
-The microservice implements basic input validation for each endpoint. Invalid input will result in a `400 Bad Request` response with a descriptive error message in JSON format. The service also logs warnings and errors using Winston.
+---
 
-## Logging
+### Step 2: Authenticate with Google Cloud
 
-The application uses Winston for logging information, warnings, and errors. Logs are written to the console and the following files in the `logs` directory:
+```bash
+gcloud auth login
+gcloud config set project sit737-docker-registry
+gcloud auth configure-docker
 
-* `error.log`: Contains only error-level logs.
-* `combined.log`: Contains all logs (info, warn, error).
+### Step 3: Build Docker Image
+docker build -t gcr.io/sit737-docker-registry/web-app:v1 .
 
-The `logs` directory will be created automatically if it doesn't exist.
+### Step 4: Push Image to Google Container Registry
+docker push gcr.io/sit737-docker-registry/web-app:v1
+
+
+### Step 5: Pull and Run the Image Locally
+docker pull gcr.io/sit737-docker-registry/web-app:v1
+docker run -p 3000:3000 gcr.io/sit737-docker-registry/web-app:v1
