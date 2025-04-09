@@ -26,16 +26,15 @@ The microservice was originally developed in Task 5.1P. In this task, we package
 ---
 
 ## Deployment Steps
- Step 1: Install Prerequisites
+### Step 1: Install Prerequisites
 
 - Node.js
 - Docker Desktop
 - Google Cloud SDK (`gcloud`)
 - Google Cloud project with billing enabled
 
----
 
-Step 2: Authenticate with Google Cloud
+### Step 2: Authenticate with Google Cloud
 
 gcloud auth login
 gcloud config set project sit737-docker-registry
