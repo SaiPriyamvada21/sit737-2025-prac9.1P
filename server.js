@@ -155,3 +155,11 @@ app.get('/health', (req, res) => {
     res.status(200).send('Healthy');
 });
 
+app.get('/info', (req, res) => {
+    res.json({
+        service: 'Calculator Microservice',
+        version: '2.0',
+        author: 'Sai Priyamvada',
+        status: 'Running'
+    });
+});
