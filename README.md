@@ -26,12 +26,12 @@ kubectl get services
 ### 4. Port Forward the Service
 kubectl port-forward service/web-app-service 8080:3000
 
-### Open your browser and test the following routes:
-http://localhost:8080/add?num1=5&num2=3
-http://localhost:8080/subtract?num1=10&num2=4
-http://localhost:8080/health
+### Open browser and test the following routes:
+- http://localhost:8080/add?num1=5&num2=3
+- http://localhost:8080/subtract?num1=10&num2=4
+- http://localhost:8080/health
 
-PART II: Updating the Application
+## PART II: Updating the Application
 ### 1. Code Update
 A new /info route was added to the server.js file:
 
