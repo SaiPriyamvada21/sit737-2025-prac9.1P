@@ -1,19 +1,45 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: web-app-deployment
+  name: calculator-app
 spec:
-  replicas: 2
+  replicas: 1
   selector:
     matchLabels:
-      app: web-app
+      app: calculator
   template:
     metadata:
       labels:
-        app: web-app
+        app: calculator
     spec:
       containers:
-      - name: web-app
-        image: web-app:v2
+      - name: calculator
+        image: saipriyamvada21/calculator-app:latest
         ports:
         - containerPort: 3000
+        env:
+        - name: MONGO_HOST
+          value: mongo
+        - name: MONGO_USER
+          valueFrom:
+            secretKeyRef:
+              name: mongo-secret
+              key: username
+        - name: MONGO_PASS
+          valueFrom:
+            secretKeyRef:
+              name: mongo-secret
+              key: password
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: calculator-service
+spec:
+  type: NodePort
+  ports:
+  - port: 3000
+    targetPort: 3000
+    nodePort: 30080
+  selector:
+    app: calculator
